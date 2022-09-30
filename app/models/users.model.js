@@ -9,6 +9,9 @@ module.exports = (sequelize, Sequelize) => {
         userName: {
             type: Sequelize.STRING
         },
+        password: {
+            type: Sequelize.STRING
+        },
         dob: {
             type: Sequelize.STRING
         },
@@ -45,9 +48,7 @@ module.exports = (sequelize, Sequelize) => {
         zodiac: {
             type: Sequelize.STRING
         },
-        lookingForGender: {
-            type: Sequelize.STRING
-        },
+
         //lifestyle
         appearance: {
             type: Sequelize.STRING
@@ -58,18 +59,14 @@ module.exports = (sequelize, Sequelize) => {
         weight: {
             type: Sequelize.STRING
         },
-        assets: {
-            type: Sequelize.STRING
-        },
+
         habits: {
             type: Sequelize.STRING
         },
         languages_known: {
             type: Sequelize.STRING
         },
-        stay: {
-            type: Sequelize.STRING
-        },
+
         //educational and job details-
         education: {
             type: Sequelize.STRING
@@ -117,16 +114,6 @@ module.exports = (sequelize, Sequelize) => {
         careTakerContact: {
             type: Sequelize.STRING
         },
-        familyIncome: {
-            type: Sequelize.STRING
-        },
-        familyStay: {
-            type: Sequelize.STRING
-        },
-        familyValues: {
-            type: Sequelize.STRING
-        },
-
         //Desired partner-
         partnerAge: {
             type: Sequelize.STRING
@@ -153,6 +140,13 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING
         },
         partnerEducation: {
+            type: Sequelize.STRING
+        },
+        //upload photos
+        passport: {
+            type: Sequelize.STRING
+        },
+        fullPhoto: {
             type: Sequelize.STRING
         },
 

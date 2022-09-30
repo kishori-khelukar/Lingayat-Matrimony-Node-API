@@ -3,6 +3,27 @@ const db = require("../models");
 const User = db.users;
 const Op = db.Sequelize.Op;
 
+//login method
+const getUserLogin = async (req, res) => {
+    console.log(req.body)
+    try {
+        const users = await User.findOne({
+            where: {
+                [Op.and]: [
+
+                    { contact: req.body.contact },
+                    { password: req.body.password },
+                ],
+            },
+        });
+        res.status(200).send(users);
+    } catch (err) {
+        res.status(500).send({
+            message: err.message || "Error occured while fetching the user  ",
+        });
+    }
+}
+
 //fetch All users from database-
 const getAllUsers = async (req, res) => {
     try {
@@ -18,7 +39,7 @@ const getAllUsers = async (req, res) => {
 const getSingleUser = async (req, res) => {
     try {
         console.log(req.params.id);
-        let users = await User.findOne({ where: { userId: req.params.id } });
+        const users = await User.findOne({ where: { userId: req.params.id } });
         res.status(200).send(users);
     } catch (err) {
         res.status(500).send({
@@ -29,8 +50,17 @@ const getSingleUser = async (req, res) => {
 //add student record to the database-
 const addUsers = async (req, res) => {
     try {
-        const users = await User.create(req.body);
-        res.status(200).send({ success: "Record Save Sucessfully....!" });
+        const userExist = await User.count({ where: { contact: req.body.contact } });
+        console.log(userExist);
+        if (userExist) {
+            res.status(409).send({ message: "Contact Already Exist...!!" });
+
+        } else {
+            const users = await User.create(req.body);
+            console.log(users.dataValues);
+
+            res.status(200).send({ success: "Record Save Sucessfully....!", userId: users.dataValues.userId });
+        }
     } catch (err) {
         res.status(500).send({
             message: err.message || "Error occured while adding the users",
@@ -40,7 +70,7 @@ const addUsers = async (req, res) => {
 //Update student record-
 const updateUser = async (req, res) => {
     try {
-        const users = await User.update(req.body, { where: { userId: req.body.userId } });
+        const users = await User.update(req.body, { where: { userId: req.params.id } });
         res.status(200).send({ success: "Record Update Sucessfully..!" });
     } catch (err) {
         res.status(500).send({
@@ -53,4 +83,5 @@ module.exports = {
     getSingleUser,
     addUsers,
     updateUser,
+    getUserLogin,
 }
